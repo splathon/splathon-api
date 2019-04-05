@@ -4,25 +4,81 @@ info:
   version: "1.0.0"
   title: "SplathonAPI"
 host: "localhost"
-basePath: "/splathon/v1"
+basePath: "/splathon/"
 schemes:
   - "https"
 tags:
-- name: "sample1"
-  description: "サンプル用のtag"
-- name: "sample2"
-  description: "サンプル用のtag"
+- name: "result"
+  description: "リザルト"
+- name: "ranking"
+  description: "ランキング"
+- name: "notification"
+  description: "通知"
+- name: "reception"
+  description: "レセプション"
+
 paths:
-  "/user/{id}":
+  "/v{eventId}/results":
     get:
       tags:
-      - "sample1"
-      description: "サンプルコード"
-      operationId: "getUserById"
+      - "result"
+      description: "リザルト一覧取得"
+      operationId: "getResults"
       parameters:
-      - name: id
+      - name: eventId
         in: path
-        description: user id
+        description: Event Id
+        required: true
+        type: number
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/Qualifiers'
+  "/v{eventId}/rankings":
+    get:
+      tags:
+      - "ranking"
+      description: "ランキング一覧取得"
+      operationId: "getRankings"
+      parameters:
+      - name: eventId
+        in: path
+        description: Event Id
+        required: true
+        type: number
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/SampleObj"
+  "/v{eventId}/notifications":
+    get:
+      tags:
+      - "notification"
+      description: "お知らせ情報取得"
+      operationId: "getNotifications"
+      parameters:
+      - name: eventId
+        in: path
+        description: Event Id
+        required: true
+        type: number
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/SampleObj"
+  "/v{eventId}/receptions":
+    get:
+      tags:
+      - "reception"
+      description: "受付情報取得"
+      operationId: "getReceptions"
+      parameters:
+      - name: eventId
+        in: path
+        description: Event Id
         required: true
         type: number
       responses:
@@ -31,6 +87,83 @@ paths:
           schema:
             $ref: "#/definitions/SampleObj"
 definitions:
+  Qualifiers:
+    type: array
+    items:
+      $ref: '#/definitions/Qualifier'
+  Qualifier:
+    type: object
+    properties:
+      round:
+        type: integer
+        format: int32
+      orderOfMatch:
+        type: integer
+        format: int32
+      rooms:
+        $ref: '#/definitions/Rooms'
+  Rooms:
+    type: array
+    items:
+      $ref: '#/definitions/Room'
+  Room:
+    type: object
+    required:
+      - id
+      - name
+      - priority
+      - matches
+    properties:
+      id:
+        type: integer
+        format: int32
+      name:
+        type: string
+      priority:
+        type: integer
+      matches:
+        $ref: '#/definitions/Matches'
+
+  Matches:
+    type: array
+    items:
+      $ref: "#/definitions/Match"
+  Match:
+    type: object
+    required:
+      - id
+      - ownTeamPoint
+      - opponentTeamPoint
+      - ownTeam
+      - opponentTeam
+    properties:
+      id:
+        type: integer
+        format: int32
+      ownTeamPoint:
+        type: integer
+        format: int32
+      opponentTeamPoint:
+        type: integer
+        format: int32
+      order:
+        type: integer
+        format: int32
+      ownTeam:
+        $ref: "#/definitions/Team"
+      opponentTeam:
+        $ref: "#/definitions/Team"
+  Team:
+    type: object
+    required:
+      - name
+      - companyName
+    properties:
+      name:
+        type: string
+      companyName:
+        type: string
+
   SampleObj:
     type: object
     properties:
