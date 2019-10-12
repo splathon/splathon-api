@@ -201,6 +201,7 @@ paths:
         format: int64
       - name: "X-SPLATHON-API-TOKEN"
         in: header
+        required: true
         type: string
       responses:
         200:
