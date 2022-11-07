@@ -68,6 +68,20 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
+  "/events":
+    get:
+      description: "Return event list data"
+      operationId: "listEvents"
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/Events"
+        default:
+          description: Generic error
+          schema:
+            $ref: "#/definitions/Error"
+
   "/{eventId}/next-match":
     get:
       tags:
@@ -1042,6 +1056,14 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/SupportedRoom"
+
+  Events:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          $ref: "#/definitions/Event"
 
   Rule:
     type: object
