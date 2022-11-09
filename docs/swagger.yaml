@@ -49,6 +49,30 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
+  "/create-event":
+    post:
+      tags:
+      - "admin"
+      description: "Create event data"
+      operationId: "createEvent"
+      parameters:
+      - name: "X-SPLATHON-API-TOKEN"
+        in: header
+        type: string
+        required: true
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/Event"
+      responses:
+        200:
+          description: Success
+        default:
+          description: Generic error
+          schema:
+            $ref: "#/definitions/Error"
+
   "/{eventId}/event":
     get:
       description: "Return event data"
@@ -63,6 +87,55 @@ paths:
           description: Success
           schema:
             $ref: "#/definitions/Event"
+        default:
+          description: Generic error
+          schema:
+            $ref: "#/definitions/Error"
+    put:
+      tags:
+      - "admin"
+      description: "Update event data"
+      operationId: "updateEvent"
+      parameters:
+      - name: eventId
+        in: path
+        required: true
+        type: string
+        format: int64
+      - name: "X-SPLATHON-API-TOKEN"
+        in: header
+        type: string
+        required: true
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/Event"
+      responses:
+        200:
+          description: Success
+        default:
+          description: Generic error
+          schema:
+            $ref: "#/definitions/Error"
+
+    delete:
+      tags:
+      - "admin"
+      operationId: "deleteEvent"
+      parameters:
+      - name: eventId
+        in: path
+        required: true
+        type: string
+        format: int64
+      - name: "X-SPLATHON-API-TOKEN"
+        in: header
+        type: string
+        required: true
+      responses:
+        200:
+          description: Success
         default:
           description: Generic error
           schema:
