@@ -1117,6 +1117,10 @@ definitions:
       numbering:
         type: integer
         format: int32
+      held_on_timestamp_sec:
+        description: "開催日のタイムスタンプ"
+        type: integer
+        format: int64
       rules:
         type: array
         items:
